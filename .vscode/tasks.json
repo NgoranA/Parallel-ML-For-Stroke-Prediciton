@@ -4,7 +4,7 @@
     {
       "label": "Run compiled executable",
       "type": "shell",
-      "command": "../build/${fileBasenameNoExtension}.x",
+      "command": "${workspaceFolder}/build/${fileBasenameNoExtension}.x",
       "options": {
         "cwd": "${fileDirname}"
       }
@@ -12,7 +12,7 @@
     {
       "label": "Clean executable",
       "type": "shell",
-      "command": "rm ../build/${fileBasenameNoExtension}.x 2>/dev/null",
+      "command": "rm ${workspaceFolder}/build/${fileBasenameNoExtension}.x 2>/dev/null",
       "options": {
         "cwd": "${fileDirname}"
       }
@@ -23,6 +23,7 @@
       "command": "g++",
       "args": [
         "-Iplog/include/",
+        "-I../include/",
         "-pedantic-errors",
         "-pipe",
         "-std=c++20",
@@ -77,9 +78,9 @@
         "-fvisibility=hidden",
         "-DDEBUG",
         "-DDBG_MACRO_NO_WARNING",
-        "${file}",
+        "${fileDirname}/**.cpp",
         "-o",
-        "../debug/${fileBasenameNoExtension}.x"
+        "${workspaceFolder}/debug/${fileBasenameNoExtension}.x"
       ],
       "options": {
         "cwd": "${fileDirname}"
@@ -96,6 +97,7 @@
       "command": "clang++",
       "args": [
         "-Iplog/include/",
+        "-I../include/",
         "-pedantic-errors",
         "-pipe",
         "-std=c++20",
@@ -146,9 +148,9 @@
         "-fvisibility=hidden",
         "-DDEBUG",
         "-DDBG_MACRO_NO_WARNING",
-        "${file}",
+        "${fileDirname}/**.cpp",
         "-o",
-        "../debug/${fileBasenameNoExtension}.x"
+        "${workspaceFolder}/debug/${fileBasenameNoExtension}.x"
       ],
       "options": {
         "cwd": "${fileDirname}"
@@ -165,6 +167,7 @@
       "command": "g++",
       "args": [
         "-Iplog/include/",
+        "-I../include/",
         "-pedantic-errors",
         "-pipe",
         "-std=c++20",
@@ -180,7 +183,7 @@
         "-DNDEBUG",
         "${file}",
         "-o",
-        "../build/${fileBasenameNoExtension}.x"
+        "${workspaceFolder}/build/${fileBasenameNoExtension}.x"
       ],
       "options": {
         "cwd": "${fileDirname}"
@@ -197,6 +200,7 @@
       "command": "clang++",
       "args": [
         "-Iplog/include/",
+        "-I../include/",
         "-pedantic-errors",
         "-pipe",
         "-std=c++20",
@@ -210,9 +214,9 @@
         "-Wpedantic",
         "-O2",
         "-DNDEBUG",
-        "${file}",
+        "${fileDirname}/**.cpp",
         "-o",
-        "../build/${fileBasenameNoExtension}.x"
+        "${workspaceFolder}/build/${fileBasenameNoExtension}.x"
       ],
       "options": {
         "cwd": "${fileDirname}"
