@@ -1,15 +1,12 @@
 #include "../include/dataset_handler.h"
+#include "../include/decision_tree.h"
 #include <cstddef>
 #include <iostream>
 #include <ostream>
+#include <utility>
 #include <vector>
 
 int main() {
-
-  //.Load the dataset of features and labels
-  /* std::vector<std::vector<double>> features; */
-  /* std::vector<int> labels; */
-  /**/
 
   std::cout << "╔═══════════╗" << std::endl;
   std::cout << "║ Main Menu ║" << std::endl;
