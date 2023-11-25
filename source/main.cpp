@@ -1,5 +1,6 @@
 #include "../include/dataset_handler.h"
 #include "../include/decision_tree.h"
+#include "../include/random_forest.h"
 #include <cstddef>
 #include <iostream>
 #include <ostream>
@@ -27,26 +28,25 @@ int main() {
   case 1:
 
     try {
-      auto [features, labels, headers] = DatasetHandler::loadFeatureAndLabelCSV(
+      std::vector<DataPoint> dataset = DatasetHandler::loadFeatureAndLabelCSV(
           "../data/X_train.csv", "../data/y_train.csv");
-      // Print the headers
-      std::cout << "Headers: ";
-      for (const auto &header : headers) {
-        std::cout << header << "\t";
-      }
-      std::cout << std::endl;
-      // print the features
-      std::cout << "Features: ";
-      for (const std::vector<double> &feature : features) {
-        for (double value : feature) {
-          std::cout << value << "\t";
-        }
-      }
 
-      std::cout << std::endl;
-      for (const int &label : labels) {
-        std::cout << label << "\t";
-      }
+      RandomForest forest(200, 0, 2);
+      forest.train(dataset);
+      // Create data points
+      /* // Print the headers */
+      /* std::cout << "Headers: "; */
+      /* for (const auto &header : headers) { */
+      /*   std::cout << header << "\t"; */
+      /* } */
+      /* std::cout << std::endl; */
+      /* // print the features */
+      /* std::cout << "Features: "; */
+      /**/
+      /* std::cout << std::endl; */
+      /* for (const int &label : labels) { */
+      /*   std::cout << label << "\t"; */
+      /* } */
     } catch (const std::exception &e) {
       std::cerr << "Exception: " << e.what() << std::endl;
     }
