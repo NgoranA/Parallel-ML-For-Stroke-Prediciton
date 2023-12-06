@@ -1,5 +1,5 @@
 #include "../include/decision_tree.h"
-#include "../include/dataset_handler.h"
+#include "iostream"
 #include <algorithm>
 #include <cmath>
 #include <set>
@@ -65,8 +65,9 @@ void DecisionTree::recursiveBuildTree(TreeNode *&node,
   // Find the best split based on Gini impurity
   int bestFeature;
   double bestThreshold;
+  std::cout << "Best split start\n";
   findBestSplit(data, bestFeature, bestThreshold);
-
+  std::cout << "Best split end\n";
   // Split the data into left and right subsets
   std::vector<DataPoint> leftSubset, rightSubset;
   for (const DataPoint &point : data) {
@@ -114,6 +115,8 @@ int DecisionTree::getMostFrequentLabel(const std::vector<DataPoint> &data) {
 
 double DecisionTree::calculateGini(const std::vector<DataPoint> &data) {
   // Calculate Gini impurity for a given set of data points
+  std::cout << "Gini Calculation Start"
+            << "\n";
   std::vector<DataPoint>::size_type totalDataPoints = data.size();
   if (totalDataPoints == 0) {
     return 0.0; // If the dataset is empty, Gini impurity is 0
@@ -136,7 +139,9 @@ double DecisionTree::calculateGini(const std::vector<DataPoint> &data) {
         static_cast<double>(labelCount) / static_cast<double>(totalDataPoints);
     giniImpurity -= labelProbability * labelProbability;
   }
-
+  std::cout << "Gini calculation ends and returns"
+            << "\n";
+  std::cout << "Geni Impurity value: " << giniImpurity << "\n";
   return giniImpurity;
 }
 
@@ -163,6 +168,8 @@ void DecisionTree::findBestSplit(const std::vector<DataPoint> &data,
     // Iterate over possible thresholds
     for (int i = 1; i < static_cast<int>(numDataPoints); ++i) {
       // Calculate Gini impurity for the split at this threshold
+
+      std::cout << "Gini calculation starts in best split function";
       double leftGini = calculateGini(
           {sortedData.begin(),
            sortedData.end() +
@@ -176,6 +183,7 @@ void DecisionTree::findBestSplit(const std::vector<DataPoint> &data,
            (static_cast<double>(numDataPoints) - i) * rightGini) /
           static_cast<double>(numDataPoints);
 
+      std::cout << "Gini calculation ends in best split function";
       // Update the best split if the current one is better
       if (weightedGini < bestGini) {
         bestGini = weightedGini;

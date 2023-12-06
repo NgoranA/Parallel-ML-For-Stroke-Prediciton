@@ -4,8 +4,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-#include <tuple>
-#include <utility>
 #include <vector>
 
 std::vector<DataPoint>

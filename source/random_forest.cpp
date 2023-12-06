@@ -1,7 +1,6 @@
 #include "../include/random_forest.h"
-#include "../include/decision_tree.h"
+#include "iostream"
 #include <algorithm> // for std::count
-#include <cstddef>
 #include <random>
 #include <vector>
 
@@ -10,7 +9,7 @@ RandomForest::RandomForest(int numTrees, int maxDepth, int numFeatures)
     : numTrees(numTrees), maxDepth(maxDepth), numFeatures(numFeatures) {
   // Initialize the random forest with decision trees
   for (int i = 0; i < numTrees; ++i) {
-    DecisionTree *tree = new DecisionTree(numFeatures, maxDepth);
+    auto *tree = new DecisionTree(numFeatures, maxDepth);
     trees.push_back(tree);
   }
 }
@@ -23,6 +22,10 @@ RandomForest::~RandomForest() {
 }
 
 void RandomForest::train(const std::vector<DataPoint> &trainingData) {
+
+  std::cout << "╔══════════════════╗" << std::endl;
+  std::cout << "║ Training Started ║" << std::endl;
+  std::cout << "╚══════════════════╝" << std::endl;
   // Train each decision tree in the random forest
   for (DecisionTree *tree : trees) {
     // Create a bootstrap sample (sampling with replacement)
@@ -35,21 +38,32 @@ void RandomForest::train(const std::vector<DataPoint> &trainingData) {
       size_t index = distribute(generate);
       /* size_t index = static_cast<size_t>(std::rand() % trainingData.size());
        */
+
+      /* std::cout << index << "\n"; */
       bootstrapSample.push_back(trainingData[index]);
     }
 
     // Train the decision tree on the bootstrap sample
     tree->buildTree(bootstrapSample);
   }
+  std::cout << "╔════════════════╗" << std::endl;
+  std::cout << "║ Training Ended ║" << std::endl;
+  std::cout << "╚════════════════╝" << std::endl;
 }
 
-int RandomForest::predict(const std::vector<double> &features) const {
+std::vector<int>
+RandomForest::predict(const std::vector<double> &features) const {
   // Aggregate predictions from each decision tree (simple majority voting)
   std::vector<int> predictions(
       static_cast<std::vector<int>::size_type>(numTrees), 0);
   for (size_t i = 0; i < trees.size(); ++i) {
     predictions[i] = trees[i]->predict(features);
   }
+
+  return predictions;
+}
+
+int RandomForest::majorityVoting(const std::vector<int> &predictions) {
 
   // Perform majority voting
   int majorityVote = 0;
@@ -59,6 +73,5 @@ int RandomForest::predict(const std::vector<double> &features) const {
       majorityVote = label;
     }
   }
-
   return majorityVote;
 }

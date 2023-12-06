@@ -1,10 +1,7 @@
-#include "../include/dataset_handler.h"
-#include "../include/decision_tree.h"
+#include "../include/cross_validation.h"
 #include "../include/random_forest.h"
-#include <cstddef>
 #include <iostream>
 #include <ostream>
-#include <utility>
 #include <vector>
 
 int main() {
@@ -30,23 +27,10 @@ int main() {
     try {
       std::vector<DataPoint> dataset = DatasetHandler::loadFeatureAndLabelCSV(
           "../data/X_train.csv", "../data/y_train.csv");
-
       RandomForest forest(200, 0, 2);
       forest.train(dataset);
-      // Create data points
-      /* // Print the headers */
-      /* std::cout << "Headers: "; */
-      /* for (const auto &header : headers) { */
-      /*   std::cout << header << "\t"; */
-      /* } */
-      /* std::cout << std::endl; */
-      /* // print the features */
-      /* std::cout << "Features: "; */
-      /**/
-      /* std::cout << std::endl; */
-      /* for (const int &label : labels) { */
-      /*   std::cout << label << "\t"; */
-      /* } */
+      crossValidation(dataset, 10);
+
     } catch (const std::exception &e) {
       std::cerr << "Exception: " << e.what() << std::endl;
     }
